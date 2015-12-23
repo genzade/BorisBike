@@ -27,6 +27,13 @@ describe DockingStation do
       expect(docking_station.dock(bike)).to eq bike
     end
 
+    it 'raises am error when docking station is full' do
+      bike = Bike.new
+      docking_station.dock(bike)
+      bike2 =Bike.new
+      expect { docking_station.dock(bike2) }.to raise_error 'Station Full'
+    end
+
     it 'returns docked bikes' do
       bike = Bike.new
       docking_station.dock(bike)
