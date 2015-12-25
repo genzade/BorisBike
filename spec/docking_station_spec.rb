@@ -6,11 +6,11 @@ require 'docking_station'
 
 describe DockingStation do
   subject(:docking_station) { described_class.new }
+  let(:bike) { Bike.new }
 
   describe '#release_bike' do
     it { is_expected.to respond_to :release_bike }
     it 'releases a bike' do
-      bike = Bike.new
       docking_station.dock(bike)
       expect(docking_station.release_bike).to eq bike
     end
@@ -20,26 +20,40 @@ describe DockingStation do
     end
   end
 
-  describe '#dock' do
+  describe '#dock(bike)' do
     it { is_expected.to respond_to(:dock).with(1).argument }
     it 'should dock' do
-      bike = Bike.new
       expect(docking_station.dock(bike)).to include bike
     end
 
     it 'raises an error when docking station is full' do
-      20.times { docking_station.dock Bike.new }
-      expect { docking_station.dock(Bike.new) }.to raise_error 'Station Full'
-    end
-
-    it 'returns docked bikes' do
-      bike = Bike.new
-      docking_station.dock(bike)
-      expect(docking_station.bikes).to include bike
+      DockingStation::DEFAULT_CAPACITY.times { docking_station.dock bike }
+      expect { docking_station.dock(bike) }.to raise_error 'Station Full'
     end
   end
 
-  describe '#bikes' do
-    it { is_expected.to respond_to(:bikes)}
+  describe '#capacity' do
+    it { is_expected.to respond_to(:capacity) }
+    it 'should have a default capacity' do
+      expect(docking_station.capacity).to eq DockingStation::DEFAULT_CAPACITY
+    end
+
+    it 'allows a variable capacity upon instantiation' do
+      station = DockingStation.new(50)
+      expect(station.capacity).to eq 50
+    end
+
+    it 'raises an error if varied capacity breached' do
+      station = DockingStation.new(50)
+      50.times { station.dock bike }
+      expect { station.dock bike }.to raise_error 'Station Full'
+    end
   end
 end
+
+
+
+
+
+
+
