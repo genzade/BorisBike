@@ -16,7 +16,14 @@ describe DockingStation do
     end
 
     it 'raises an error when no bikes are available' do
-      expect { docking_station.release_bike }.to raise_error 'Bikes Unavailable'
+      expect { docking_station.release_bike }.to raise_error 'Bike Unavailable'
+    end
+
+    it 'raises an error when releasing a bike that is broken' do
+      bike2 = Bike.new
+      bike2.report_broken
+      docking_station.dock(bike2)
+      expect { docking_station.release_bike }.to raise_error 'Bike Unavailable'
     end
   end
 
@@ -24,6 +31,12 @@ describe DockingStation do
     it { is_expected.to respond_to(:dock).with(1).argument }
     it 'should dock' do
       expect(docking_station.dock(bike)).to include bike
+    end
+
+    it 'should dock a bike even if it is broken' do
+      bike2 = Bike.new
+      bike2.report_broken
+      expect(docking_station.dock(bike2)).to include bike2
     end
 
     it 'raises an error when docking station is full' do
@@ -50,10 +63,3 @@ describe DockingStation do
     end
   end
 end
-
-
-
-
-
-
-
