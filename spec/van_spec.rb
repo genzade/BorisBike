@@ -6,4 +6,10 @@ require 'van'
 
 describe Van do
   subject(:van) { described_class.new }
+
+  let(:station) { double :docking_station }
+
+  it 'recieves broken bikes from a docking station' do
+    expect { van.recieve_bikes }.not_to raise_error
+  end
 end

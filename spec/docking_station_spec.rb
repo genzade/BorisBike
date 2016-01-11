@@ -58,4 +58,11 @@ describe DockingStation do
       expect { station.dock bike }.to raise_error 'Station Full'
     end
   end
+
+  describe '#broken_bikes' do
+    it 'separate out broken bikes' do
+      docking_station.dock(bike2)
+      expect(docking_station.broken_bikes).to include bike2
+    end
+  end
 end
