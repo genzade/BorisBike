@@ -10,6 +10,8 @@ describe Van do
   let(:station) { double :docking_station }
 
   it 'recieves broken bikes from a docking station' do
-    expect { van.recieve_bikes }.not_to raise_error
+    expect { van.collect_bikes }.not_to raise_error
+
+    # expect()
   end
 end
