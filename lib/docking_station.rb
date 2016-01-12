@@ -22,6 +22,12 @@ class DockingStation
     bike.broken? ? broken_bikes << bike : bikes << bike
   end
 
+  def collect_broken
+    collected = broken_bikes.map{|bike| bike}
+    @broken_bikes.clear
+    return collected
+  end
+
   private
   attr_reader :bikes
 
@@ -37,3 +43,10 @@ class DockingStation
     bikes.last.broken? == true
   end
 end
+
+
+# def collect_broken_bikes
+#     give_bikes = broken_bikes.map{|bike| bike}
+#     @broken_bikes.clear
+#     return give_bikes
+#   end

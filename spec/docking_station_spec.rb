@@ -59,10 +59,20 @@ describe DockingStation do
     end
   end
 
-  describe '#broken_bikes' do
-    it 'separate out broken bikes' do
-      docking_station.dock(bike2)
-      expect(docking_station.broken_bikes).to include bike2
+  context 'when returning broken bikes' do
+    describe '#broken_bikes' do
+      it 'separate out broken bikes' do
+        docking_station.dock(bike2)
+        expect(docking_station.broken_bikes).to include bike2
+      end
+    end
+
+    describe '#collect_broken' do
+      it 'rounds up all broken bikes' do
+        docking_station.dock(bike2)
+        docking_station.collect_broken
+        expect(docking_station.broken_bikes).not_to include bike2
+      end
     end
   end
 end
